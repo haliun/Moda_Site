@@ -1,0 +1,81 @@
+body {
+            background: #f3f2f3;
+            color: #000000;
+            font-size: 12px;
+}
+h1{
+    color:red;
+}
+#container {
+            background:#99CC99;
+            margin: 30px auto;
+            width: 900px;
+            height: 600px;
+}
+ 
+#header {
+            background: #66CCCC;
+            height: 100px;
+            width: 900px;
+}
+ 
+#navigation {
+            background: url(/static/static%20files/images/navigation-bg.jpg) no-repeat left top;
+            width: 900px;
+            height: 50px;
+            margin: 0;
+            padding: 0;
+}
+#navigation ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#navigation ul li {
+	display: inline;
+	margin: 0;
+}
+#navigation ul li a {
+	height:33px;
+	display: block;
+	float: left;
+	padding: 17px 15px 0 15px;
+	font: bold 12px Arial;
+	color: #FFF;
+	text-decoration: none;
+	background: url(/static/static%20files/images/navigation-separator.png) no-repeat right center;
+}
+
+#navigation ul li a:hover {
+	color:#363636;
+	background: url(/static/static%20files/images/navigation-hover.png) repeat-x left top;
+}
+
+#navigation ul li#active a {
+	color:#363636;
+	background: url(/static/static%20files/images/navigation-hover.png) repeat-x left top;
+}
+#menu {
+            background: #99CC99;
+            float: left;
+            width: 200px;
+            height: 400px;
+}
+ 
+#content {
+            background: #d2d0d2;
+            float: right;
+ 
+            width: 700px;
+            height: 400px;
+}
+ 
+#clear {
+            clear:both;
+}
+ 
+#footer {
+            background: #0066FF;
+            height: 80px;
+            width: 900px;
+}

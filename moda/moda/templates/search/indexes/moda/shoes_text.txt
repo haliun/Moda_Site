@@ -1,0 +1,4 @@
+{{ object.shoes_name }}
+{{ object.shoes_description }}
+{{ object.shoes_brand }}
+{{object.shoes_material}}

@@ -1,0 +1,13 @@
+django=1.8
+solid-i18n
+django-registration-redux
+wheel
+Pillow
+mock==1.0.1
+djangoajax
+django-social-auth
+django_registration
+django-profiles
+django-jquery
+django-password-reset
+pymysql

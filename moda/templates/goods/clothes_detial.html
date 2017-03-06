@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{%  block content %}
+<div id="field">
+        <table align="left">
+            <td>
+                 <img src=" {{ clothes.clothes_image.url }}" width="250", height="200" alt="{{ clothes.clothes_name }}">
+            </td>
+        </table>
+        <table border="1" align="left">
+            <tr>
+                <th>
+                   <h3>{{ clothes.clothes_name }}</h3>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                <h3>Data uploaded: </h3>
+
+                </td>
+                <td>
+                    <h3>{{ clothes.data_upload|date:"F j, Y" }}</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3>Owner: </h3>
+                </td>
+                <td>
+                    <h3>{{ clothes.owner.username }}</h3>
+                </td>
+            </tr>
+            <tr>
+                 <td>
+                    <h3>Size: </h3>
+
+                </td>
+                 <td>
+                    <h3>{{ clothes.clothes_size }}</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3>Material: </h3>
+
+                </td>
+                <td>
+                    <h3>{{ clothes.clothes_material }}</h3>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h3>Brand: </h3>
+
+                </td>
+                <td>
+                    <h3>{{ clothes.clothes_brand }}</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3>Price: </h3>
+
+                </td>
+                <td>
+                    <h3>{{ clothes.clothes_price }}</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3>Color: </h3>
+                </td>
+        <td>
+            <h3>{{ clothes.clothes_color }}</h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h3>Type: </h3>
+        </td>
+        <td>
+            <h3>{{ clothes.clothes_type }}</h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h3>Situation: </h3>
+
+        </td>
+        <td>
+            <h3>{{clothes.clothes_situation }}</h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h3>
+                Delivery:
+            </h3>
+        </td>
+        <td>
+            <h3>
+                {{ clothes.clothes_delivery }}
+            </h3>
+        </td>
+    </tr>
+    <tr>
+        <td><h3>Telephone:</h3></td>
+        <td><h3>{{ clothes.owner_telephone }}</h3></td>
+    </tr>
+    <tr>
+        <td>
+            <h3>Description: </h3>
+
+        </td>
+        <td>
+            <h3>{{ clothes.clothes_description }}</h3>
+        </td>
+    </tr>
+
+
+</table>
+</div>
+{% endblock %}

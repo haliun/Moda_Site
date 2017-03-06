@@ -1,0 +1,605 @@
+   clothes_type=models.CharField(max_length=20)
+    clothes_brand=models.CharField(max_length=20)
+    clothes_material=models.CharField(max_length=20)
+    clothes_image=models.FileField(upload_to='.')
+    clothes_color=models.CharField(max_length=20)
+    clothes_situation=models.CharField(max_length=20)#new, old, how old
+    clothes_price=models.CharField(max_length=20)
+    clothes_condition=models.CharField(max_length=10)#auction or sell
+def login_user(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+    else:
+        if request.method=='POST':
+            username=request.POST.get('username','')
+            password=request.POST.get('password','')
+            user=authenticate(username=username, password=password)
+            if(user is not None) and (user.is_active):
+                login(request,user)
+                return HttpResponseRedirect("/registration/loggedin/")
+            else:
+                messages.add_message(request,messages.ERROR,'Username or password are invalid!')
+                return HttpResponseRedirect('/registration/invalid/')
+        else:
+            return render(request,'registration/login.html')
+
+
+//////models
+
+ __author__ = 'haliun'
+from django.db import models
+from moda import settings
+from time import  time
+import os
+# Create your models here.
+from datetime import  datetime
+from django.utils.timezone import utc
+from django.contrib.auth.models import User
+
+class Clothes(models.Model):
+    class Meta():
+        db_table="moda_clothes"
+        app_label = "moda"
+
+    def __unicode__(self):
+        return '%s' % self.title
+     # Так читать очень тяжело, не поймешь, где какое поле.
+    # обычно поля собирают все-таки в верх класса. Между
+    # объявлением класса и конструктором.
+    clothes_name=models.CharField(max_length=30)
+
+    # Вот это здесь - зачем?
+    # Во-первых, вы жестко привязываете внешний вид и саму модель. То есть Ваша модель уже не сможет выглядеть
+    # как-то по-другому. Во-вторых, почему-то Вы это делаете - не в методе, а в самом классе, статическим
+    # полем. Ради чего это все? Внешний вид - это функция VIEWS, а не моделей.
+    #
+    #size_choices=(
+    #     ('0','XXS'),
+    #     ('1','XS'),
+    #     ('2','S'),
+    #     ('3','M'),
+    #     ('4','L'),
+    #     ('5','XL'),
+    #     ('6','XXL'),
+    #     ('7','XXXL'),
+    # )
+
+    clothes_size=models.CharField(max_length=3)
+
+    clo_dateupload=models.DateTimeField(u'Date of upload',blank=True,default=datetime.now())
+    cgender_choices=(
+        ('M','Male'),
+        ('F','Female'),
+        ('B','Boy'),
+        ('G','Girl'),)
+    clothes_gender=models.CharField(max_length=1,choices=cgender_choices,default='F')
+    type_choices=(
+        ('Dresses',(
+            ('cocktail','Cocktail'),
+            ('casual','Casual'),
+            ('party','Party'),
+            ('mini dress','Mini Dress'),
+            ('long dress','Long Dress'),
+            ('midi dress','Midi Dress'),
+            ('soft knit','Soft Knit'),
+            ('office dress','Office Dress'),
+            ('evening','Evening'),
+            ('wedding','Wedding')
+        )),
+        ('Shirts&Blouses',(
+            ('casual','Casual'),
+            ('office','Office'),
+            ('crop top','Crop Top'),
+            ('t-shirt','T-shirt'),
+            ('denim','Denim'),
+            ('knit','Knit'),
+            ('sweater','Sweater'),
+            ('vest','Vest'),#maik
+            ('party','Party')
+
+        )),
+        ('Jacket',(
+            ('leather','Leather'),
+            ('bomber','Bomber'),
+            ('denim','Denim'),
+            ('parka','Parka'),
+            ('quilted','Quilted'),#dulaalaga dotortoi
+
+        )),
+        ('Skirt',(
+            ('mini','Mini'),
+            ('midi','Midi'),
+            ('long','Long'),
+            ('leather','Leater'),
+            ('denim','Denim'),
+            ('knit','Knit'),#nehsen nooson
+            ('skater','Skater'),#derveger
+            ('bodycon','BodyCon'),#biye barisan
+            ('line','Line')#shuluun
+
+        )),
+        ('Suit',(
+            ('office','Office'),
+            ('jumpsuit','Jumpsuit'),
+            ('playsuit','Playsuit'),
+            ('denim','Denim'),
+            ('with skirt','With Skirt'),
+            ('with trousers','With Trousers')
+        )),
+        ('Trousers',(
+            ('leggings','Leggings'),
+            ('casual','Casual'),
+            ('office','Office'),
+            ('wool','Wool'),
+            ('skinny','Skinny'),#bariu
+            ('wide','Wide'),#urgun
+            ('trapized','Trapized'),
+            ('short','Short')
+        )),
+        ('Jeans',(
+            ('skinny','Skinny'),
+            ('boyfriend','Boyfriend'),
+            ('trapized','Trapized'),
+            ('high waister','High Waisted'),#undur suudaltai
+            ('dungaree','Dungaree'),#muruvchtei
+            ('jeggings','Jeggings'),#rezinen,sunalttai
+            ('wide','Wide'),
+            ('distressed','Distressed'),#semersen,
+            ('mini short','Mini short'),
+            ('short','Short')
+
+        )
+        ),
+        ('Coat',(
+            ('cashmere','Cashmere'),
+            ('belted','Belted'),
+            ('maxilong','Maxi Long'),
+            ('short','Short'),
+            ('collar','Collar'),
+            ('Duster','Duster'),
+            ('wool','Wool'),
+            ('waterproof','Waterproof'),
+            ('fur','Fur'),
+            ('sheepskin','Sheepskin')
+        )),
+        ('Sportswear',(
+            ('leggings','Leggings'),
+            ('top','Top'),
+            ('t-shirt','T-shirt'),
+            ('shorts','Shorts'),
+            ('vests','Vests'),
+            ('suit','Suit'),
+            ('trousers','Trousers'),
+            ('hoodies','Hoodies')#tsamts
+        )),
+        ('Lingerie',(
+            ('pyjama','Pyjama'),
+            ('sets','Sets'),
+            ('bras','Bras'),
+            ('thong','Thong'),#trusi
+            ('especial','Especial'),
+            ('body','Body'),
+            ('dress','Dress'),
+            ('suspender','Suspender')#togtooch, tal triko
+        ))
+
+    )
+    clothes_type=models.CharField(max_length=15,choices=type_choices,default='Dresses')
+    clothes_brand=models.CharField(max_length=20)
+    material_choices=(
+                      ('W','Wool'),
+                      ('Ca','Cashmere'),
+                      ('Co','Cotton'),
+                      ('N','Nylon'),
+                      ('D','Denim'),
+                      ('S','Silk'),
+                      ('K','Knit'),
+                      ('S','Satin'),
+                      ('P','Polyster'),
+                      ('L','Linen'),
+                      ('Cor','Corduroy')#elgen
+                      )
+    clothes_material=models.CharField(max_length=10,choices=material_choices,default='W')
+    clothes_image=models.FileField(upload_to='.')
+    Colors=(
+        ('BLA','Black'),
+        ('WHI','White'),
+        ('PI','Pink'),
+        ('YEL','Yellow'),
+        ('BL','Blue'),
+        ('AZ','Azure'),
+        ('PE','Peach pink'),
+        ('VIO','Violette'),
+        ('PU','Purple'),
+        ('GRE','Grey'),
+        ('GE','Green'),
+        ('RED','Red'),
+        ('OR','Orange'),
+        ('BUR','Burgundy'),#ulaan huren
+        ('GO','Gold'),
+        ('SI','Silver'),
+        ('BR','Brown'),
+        ('BE','Beige'),
+        ('NE','Neon')
+    )
+    clothes_color=models.CharField(max_length=12,choices=Colors,default='BLA')
+    Situation=(
+        ('N','New'),
+        ('MN','MayNew'),
+        ('MID','MidNew'),
+        ('O','Old')
+    )
+    clothes_situation=models.CharField(max_length=3,choices=Situation,default='N')#new, old, how old
+    clothes_price=models.CharField(max_length=20)
+    Season=(
+        ('W','Winter'),
+        ('Sp','Spring'),
+        ('Au','Autumn'),
+        ('Su','Summer'),
+        ('D','Demiseason')
+    )
+    clothes_season=models.CharField(max_length=5,choices=Season,default='Su')
+    clothes_description=models.CharField(max_length=100)
+class Users(models.Model):
+    class Meta():
+        db_table="moda_users"
+        app_label = "moda"
+    def __unicode__(self):
+        return '%s' % self.title
+    user_firstname=models.CharField(max_length=30)
+    user_lastname=models.CharField(max_length=30)
+    user_username=models.CharField(max_length=30)
+    user_password=models.CharField(max_length=40)
+    user_password2=models.CharField(max_length=30)
+    user_email=models.EmailField(max_length=30)
+    user_telephone=models.CharField(max_length=15)
+
+class Shoes(models.Model):
+    class Meta():
+        db_table="moda_shoes"
+        app_label = "moda"
+
+    def __unicode__(self):
+        return '%s' % self.title
+    shoes_name=models.CharField(max_length=30)
+    shoes_dataupload=models.DateTimeField(u'Date of upload',blank=True,default=datetime.now())
+    size_choices=(
+        ('0','35'),
+        ('1','36'),
+        ('2','37'),
+        ('3','38'),
+        ('4','39'),
+        ('5','40'),
+        ('6','41'),
+        ('7','42'),
+        ('8','43'),
+        ('9','44'),
+        ('10','45'),
+        ('11','46')
+    )
+    shoes_size=models.CharField(max_length=3,choices=size_choices,default='0')
+    cgender_choices=(
+        ('M','Male'),
+        ('F','Female'),
+        ('B','Boy'),
+        ('G','Girl'),)
+    shoes_gender=models.CharField(max_length=1,choices=cgender_choices,default='F')
+    type_choices=(
+        ('Boots',(
+            ('knee high','Knee High'),
+            ('wide calf','Wide Calf'),
+            ('high heel','High Heel'),
+            ('snow','Snow'),
+            ('rain','Rain'),
+            ('ankle','Ankle'),#hagas turuitei
+            ('timberland','Timberland'),
+            ('ugg','UGG')
+
+        )),
+        ('Heels',(
+            ('casual','Casual'),
+            ('office','Office'),
+            ('platform','Platform'),
+            ('summer','summer'),
+            ('open toe','Open toe'),
+            ('sandals','Sandals'),
+            ('wedges','Wedges')#urgelj ultai
+
+
+        )),
+
+        ('Sport',(
+            ('sneakers','Sneakers'),
+            ('hiking','Hiking'),
+            ('basketball','Basketball'),
+            ('football','Football'),
+            ('golf','Golf'),
+            ('fitness','Fitness')
+
+
+        )),
+        ('Sandals',(
+            ('heels','Heels'),
+            ('wedges','Wedges'),
+            ('gladiator','Gladiator'),
+            ('low heel','Low heel')
+        )),
+        ('Flats',(#chishki
+            ('ballet','Ballet'),
+            ('open toe','Open Toe'),
+            ('buuz','Buuz'),
+            ('free','Free'),
+            ('pointed','Pointed')
+
+
+        )),
+        ('Slippers',(#tabchiki
+            ('bootie','Bootie'),
+            ('open toe','open toe'),
+            ('for cold','For Cold'),
+            ('water','Water'),
+
+        )
+        ),
+        ('Botinki',(
+            ('leather','Leather'),
+            ('golf','Golf'),
+            ('biker','Biker'),
+            ('casual','Casual'),
+            ('office','Office'),
+
+        )),
+
+    )
+    shoes_type=models.CharField(max_length=15,choices=type_choices,default='Dresses')
+    shoes_brand=models.CharField(max_length=20)
+    material_choices=(
+                      ('L','Leather'),
+                      ('S','Suede'),#elgen
+                      ('F','Faux leather'),#himel
+                      ('Fa','Fabric'),#daavuun
+                      ('R','Rubber'),#rezinen
+                      ('G','Glitter'),
+                      ('La','Lak'),
+                      ('FS','Faux Suede'),
+                      ('N','Nehii'),
+                      ('P','Polyester'),#hiimel dotor
+                      ('Na','Natural Fur')
+
+                      )
+    shoes_material=models.CharField(max_length=10,choices=material_choices,default='W')
+    shoes_image=models.FileField(upload_to='.')
+    Colors=(
+        ('BLA','Black'),
+        ('WHI','White'),
+        ('PI','Pink'),
+        ('YEL','Yellow'),
+        ('BL','Blue'),
+        ('AZ','Azure'),
+        ('PE','Peach pink'),
+        ('VIO','Violette'),
+        ('PU','Purple'),
+        ('GRE','Grey'),
+        ('GE','Green'),
+        ('RED','Red'),
+        ('OR','Orange'),
+        ('BUR','Burgundy'),#ulaan huren
+        ('GO','Gold'),
+        ('SI','Silver'),
+        ('BR','Brown'),
+        ('BE','Beige'),
+        ('NE','Neon')
+    )
+    shoes_color=models.CharField(max_length=12,choices=Colors,default='BLA')
+    Situation=(
+        ('N','New'),
+        ('MN','MayNew'),
+        ('MID','MidNew'),
+        ('O','Old')
+    )
+    shoes_situation=models.CharField(max_length=3,choices=Situation,default='N')#new, old, how old
+    shoes_price=models.CharField(max_length=20)
+    Season=(
+        ('W','Winter'),
+        ('Sp','Spring'),
+        ('Au','Autumn'),
+        ('Su','Summer'),
+        ('D','Demiseason')
+    )
+    shoes_season=models.CharField(max_length=5,choices=Season,default='Su')
+    shoes_description=models.CharField(max_length=100)
+class Accessories(models.Model):
+    class Meta():
+        db_table="moda_accessories"
+        app_label = "moda"
+
+    def __unicode__(self):
+        return '%s' % self.title
+    acc_name=models.CharField(max_length=30)
+    size_choices=(
+        ('0','XXS'),
+        ('1','XS'),
+        ('2','S'),
+        ('3','M'),
+        ('4','L'),
+        ('5','XL'),
+        ('6','XXL'),
+        ('7','XXXL'),
+    )
+    acc_size=models.CharField(max_length=3,choices=size_choices,default='0')
+    cgender_choices=(
+        ('M','Male'),
+        ('F','Female'),
+        ('B','Boy'),
+        ('G','Girl'),)
+    acc_gender=models.CharField(max_length=1,choices=cgender_choices,default='F')
+    type_choices=(
+       ('R','Rings'),
+       ('B','Belt'),
+       ('N','Necklace'),
+       ('B','Bag'),
+       ('Glo','Gloves'),
+       ('Gla','Glasses'),
+       ('W','Wallet'),
+       ('Sc','Scarves'),#alchuur oroolt
+       ('H','Hats'),
+       ('HA','Hair'),
+       ('E','Earrings'),
+       ('P','Piercings'),
+       ('Wa','Watches'),
+       ('Br','Bracelets'),
+       ('T','Tie'),
+       ('C','Cuff Links')
+
+    )
+
+    acc_type=models.CharField(max_length=15,choices=type_choices,default='Dresses')
+    acc_brand=models.CharField(max_length=20)
+    acc_material=models.CharField(max_length=30)
+    acc_image=models.FileField(upload_to='.')
+    Colors=(
+        ('BLA','Black'),
+        ('WHI','White'),
+        ('PI','Pink'),
+        ('YEL','Yellow'),
+        ('BL','Blue'),
+        ('AZ','Azure'),
+        ('PE','Peach pink'),
+        ('VIO','Violette'),
+        ('PU','Purple'),
+        ('GRE','Grey'),
+        ('GE','Green'),
+        ('RED','Red'),
+        ('OR','Orange'),
+        ('BUR','Burgundy'),#ulaan huren
+        ('GO','Gold'),
+        ('SI','Silver'),
+        ('BR','Brown'),
+        ('BE','Beige'),
+        ('NE','Neon')
+    )
+    acc_color=models.CharField(max_length=12,choices=Colors,default='BLA')
+    Situation=(
+        ('N','New'),
+        ('MN','MayNew'),
+        ('MID','MidNew'),
+        ('O','Old')
+    )
+    acc_situation=models.CharField(max_length=3,choices=Situation,default='N')#new, old, how old
+    acc_price=models.CharField(max_length=20)
+    acc_description=models.CharField(max_length=100)
+    acc_data_upload=models.DateTimeField(u'Date of upload',blank=True,default=datetime.now())
+class Makeup(models.Model):
+    class Meta():
+        db_table="moda_makeup"
+        app_label = "moda"
+
+    def __unicode__(self):
+        return '%s' % self.title
+    makeup_name=models.CharField(max_length=30)
+    type_choices=(
+        ('MakeUp',(
+            ('L','Lashes'),
+            ('EL','Eyeliner'),
+            ('BP','Brow'),
+            ('LS','Lipstick'),
+            ('LG','LipGloss'),
+            ('F','Foundation'),
+            ('B','Base'),
+            ('Po','Powder'),
+            ('C','Concealer'),
+            ('Bl','Blush'),
+            ('HL','Highlighter'),
+            ('Pr','Primer'),
+            ('LB','LipBalm'),
+            ('ES','Eyeshadow'),
+            ('LL','LipLiner'),
+            ('EP','EyePencil')
+        )),
+       ('Parfumes',(
+            ('B','Body'),
+            ('H','Hair'),
+            ('D','Desodrant')
+        )),
+       ('Skin care',(
+           ('CD','Day Creme'),
+           ('CN','Night Creme'),
+           ('Es','Essence'),
+           ('F','Foam'),
+           ('M','Maska'),
+           ('T','Tonic'),
+           ('AA','Anti-Aging'),
+           ('AAc','Anti-Acne'),
+           ('C','Cleanser'),
+           ('SC','Sun care'),
+           ('Sc','Scrub'),
+           ('MR','Makeup Remover'),
+           ('Mo','Moisturiser'),
+           ('Se''Serum'),
+           ('S','Sets')
+       )),
+        ('Body Care',(
+         ('BL','Body Lotion'),
+         ('FC','Foot care'),
+         ('SC','Suncare'),
+         ('BS','Body Scrub'),
+         ('BM','Body MakeUp'),
+         ('BF','Body soap'),
+         ('BS','Bath Salt'),
+         ('HR','Hair Removal'),
+         ('S','Sets'),
+         ('T','Treatments')
+
+        )),
+       ('Hand Care',(
+        ('O','Oil'),
+        ('GP','Gel Polish'),
+        ('M','Mask'),
+        ('PR','Polish Removal'),
+        ('T','Treatments'),
+        ('SC','Scissors Clippers'),
+        ('SC','Suncare'),
+        ('S','Sets')
+       )),
+        ('Hair Care',(
+            ('Sh','Shampoon'),
+            ('C','Conditioner'),
+            ('M','Mask'),
+            ('E','Essence'),
+            ('O','Oil'),
+            ('C','Colour'),
+            ('S','Spray'),
+            ('G','Gel'),
+            ('M','Mousse'),
+            ('Tr','Treatments'),
+            ('W','Wax'),
+            ('V','Volumiser'),
+            ('S','Sets')
+        )),
+        ('Accessories',(
+            ('H','Hair'),
+            ('M','Makeup'),
+            ('N','Nails'),
+            ('Ha','Hand'),
+            ('B','Bath'),
+            ('T','Teeth'),
+            ('F','Foot'),
+            ('B','Body'),
+            ('E','Electrical')
+
+        )),
+    )
+
+    makeup_type=models.CharField(max_length=15,choices=type_choices,default='Dresses')
+    makeup_brand=models.CharField(max_length=20)
+    makeup_image=models.FileField(upload_to='.')
+    Situation=(
+        ('N','New'),
+        ('MN','MayNew'),
+        ('MID','MidNew'),
+        ('O','Old')
+    )
+    makeup_situation=models.CharField(max_length=3,choices=Situation,default='N')#new, old, how old
+    makeup_price=models.CharField(max_length=20)
+    makeup_data_upload=models.DateTimeField(u'Date of upload',blank=True,default=datetime.now())
+    makeup_description=models.CharField(max_length=100)

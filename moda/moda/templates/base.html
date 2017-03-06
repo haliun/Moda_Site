@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+{% load i18n %}
+{% load staticfiles %}
+
+<!--  -->
+<html>
+<head>
+
+    <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8">
+    <title>{% block title %}Buy&Sell&Trade{% endblock %}</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <!-- CSS -->
+    {%  if DEBUG  %}
+    <link rel="stylesheet" type="text/css" href="{% static 'js/jquery-ui-1.11.4.custom/jquery-ui.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'js/jquery-ui-1.11.4.custom/jquery-ui.theme.css' %}">
+    {% else %}
+    <link rel="stylesheet" type="text/css" href="{% static 'js/jquery-ui-1.11.4.custom/jquery-ui.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css' %}">
+    {% endif %}
+    <!-- Внешние CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}"/>
+    <link rel="stylesheet" href="{% static 'js/unslider-master/dist/css/unslider.css' %}"/>
+    <!--Внешние скрипты-->
+    <script src="{%  static  'js/jquery-2.1.4.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/jquery-ui-1.11.4.custom/jquery-ui.min.js' %}" type="text/javascript"></script>
+    <!-- Ваши собственные скрипты -->
+    <script src="{% static 'js/base.js' %}" type="text/javascript"></script>
+     <script src="{% static 'js/register.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/upload.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/add-something.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/unslider-master/dist/js/unslider-min.js' %}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready( function() {
+           _base.on_document_ready();
+
+        });
+
+
+    </script>
+<div id="logo">
+    <a href="/" title="Fashion">
+        <img align="left" style="margin-left:50px; margin-top:50px;" width="250px" src="/static/images/images.png" alt="Main Page">
+    </a>
+</div>
+<div id="searchpanel">
+    <h2><a href="/search/">Search</a></h2>        <h2><a id="button_add" href="javascript:Dialogadd.show();">Add a something</a></h2>
+</div>
+</head>
+
+    <body>
+
+     <div id="container ui-widget ui-widget-content">
+            <div id="header" role="heading">
+            {% block header %}
+              <div id="content">
+                {% if user.is_authenticated %}
+                        <p><h2 align="right">Welcome, {{ user.username }}. Thanks for logging in.  <a href="/profile/">User Profile</a> </h2></p>
+
+                        <p align="right">  <input id="Logout" type="button" value="Logout"></p>
+                    {% else %}
+                         <p><h2 align="right">Welcome, new user. Please log in.</h2></p>
+                          <div id="content"><div style="height: 20px;">
+                                 <a id="button_login" href="javascript:DialogLogin.show();"><h2 align="right">Login/Register</h2></a>
+                           </div>
+         </div>
+
+                    {% endif %}
+              </div>
+
+
+        </div>
+
+
+     <ul id="navigation">
+
+                     <li>
+                         <a href="/goods/newarrivals/">New Arrivals</a>
+                     </li>
+                     <li>
+                         <a href="/goods/clothes/">Clothes</a>
+                         <ul class="">
+                             <li>Women</li>
+                             <li>Men</li>
+                         </ul>
+
+                     </li>
+                     <li>
+                         <a href="/goods/accessories/">Accessories</a>
+                     </li>
+                     <li>
+                         <a href="/goods/cosmetics/">Cosmetics</a>
+                     </li>
+                     <li>
+                         <a href="/goods/shoes/">Shoes</a>
+                     </li>
+                     <li>
+                         <a href="/news/">New Trends</a>
+                     </li>
+                     <li>
+                         <a href="/goods/sales/">Sale</a>
+                     </li>
+                    <li>
+                        <a href="/goods/services/">Services</a>
+                    </li>
+
+
+     </ul>
+
+
+     {% endblock header %}
+     {% block content %}
+
+     {% endblock content %}
+
+    </div>
+
+ <footer>
+     {%  block footer %}
+
+             <div id="footer">
+                 <p id="copyright"><h2>&copy; Copyright STYLE MONGOLIA 2015</h2></p>
+                 <ul>
+                     <li><a href="/aboutus/"><h2>About us</h2></a> </li>
+                     <li><a href="/instructions/"><h2>Instructions/How it works?</h2></a> </li>
+                     <li><a href="/contact/"><h2>Contact</h2></a> </li>
+                     <li><a href="/faq/"><h2>FAQ</h2></a> </li>
+                     <li><a href="/terms/"><h2>Terms&Privacy</h2></a> </li>
+                     <li><a href="/sharewith/"><h2>Share with Facebook friends</h2></a> </li>
+                 </ul>
+             <p id="back-top"><a href="/"><h2>Back to top</h2></a> </p>
+             </div>
+
+    {%  endblock %}
+
+</footer>
+
+
+    <!--диалог авторизации. -->
+    <div id="DialogLogin" class="dialog" title="Login" style="display: none; ">
+            <table border="0">
+                  <tr>
+                      <td>Username: </td>
+                      <td><input type="text" name = "username"  id="username" placeholder="username"></td>
+                  </tr>
+                  <tr>
+                      <td>Password:</td>
+                      <td><input type="password" name="password" autocomplete="off" id="password" placeholder="Password"></td>
+                  </tr>
+
+            </table>
+                <br>
+                <a href="/user/password/reset/">Forgot Password?</a>
+
+                      <br>
+                <div id="content">
+                       <a id="button_register" href="javascript:DialogRegister.show();">Register</a>
+                 </div>
+
+
+    </div>
+    <div id="DialogRegister" title="Register" style="display: none; ">
+        <form method="post" id="Register" action="{% url 'register' %}">
+                      {% csrf_token %}
+                        {{  form.as_table }}
+                 <table>
+            <tr>
+                <div class="form-group">
+                    <td><label for="username">Username: </label></td>
+                    <td><input type="text" name = "username"  id="username" placeholder="username"></td>
+                 </div>
+            </tr>
+           <tr>
+                <div class="form-group">
+                    <td><label for="first_name">Firstname: </label></td>
+                    <td><input type="text" name = "first_name"  id="first_name" placeholder="first_name"></td>
+                 </div>
+            </tr>
+             <tr>
+                <div class="form-group">
+                    <td><label for="last_name">Lastname: </label></td>
+                    <td><input type="text" name = "last_name"  id="last_name" placeholder="last_name"></td>
+                 </div>
+            </tr>
+             <tr>
+                <div class="form-group">
+                    <td><label for="email">Email: </label></td>
+                    <td><input type="email" name = "email"  id="email" placeholder="email"></td>
+                 </div>
+            </tr>
+
+             <tr>
+                <div class="form-group">
+                    <td><label for="password1">Password: </label></td>
+                    <td><input type="password" name = "password1"  id="password1" placeholder="password1"></td>
+                 </div>
+            </tr>
+             <tr>
+                <div class="form-group">
+                    <td><label for="password2">Confirm password: </label></td>
+                    <td><input type="password" name = "password2"  id="password2" placeholder="password2"></td>
+                 </div>
+            </tr>
+                </table>
+
+        </form>
+
+
+    </div>
+    <div id="Dialogadd" class="dialog" title="Add goods">
+        <h2 align="center">Choose what do you want to add!</h2>
+        <div id="content">
+            <li><a id="button_upload_clothes" href="javascript:DialogUploadClothes.show();"><h3>Upload Clothes</h3></a>
+            <li><a id="button_upload_accessories" href="javascript:DialogUploadClothes.show();"><h3>Upload Accessories</h3></a></li>
+            <li><a id="button_upload_shoes" href="javascript:DialogUploadClothes.show();"><h3>Upload shoes</h3></a></li>
+            <li><a id="button_upload_cosmetics" href="javascript:DialogUploadClothes.show();"><h3>Upload Cosmetics</h3></a></li>
+
+
+
+    </div>
+    <!--<div>
+        <label id="error_dialog_description" >bbb</label>
+    </div>
+-->
+<div id="DialogUploadClothes" title="UploadClothes" >
+    <table>
+
+         <tr>
+                  <td><label for="clothes_name">Name of clothes: </label></td>
+                  <td><input type="text" name = "clothes_name"  id="clothes_name" required></td>
+
+         </tr>
+         <tr>
+             <td align="center"><input type="checkbox" name="want_sell" id="want_sell"/></td>
+             <td>I want to sell this clothes.</td>
+         </tr>
+         <tr>
+             <td align="center"><input type="checkbox" name="want_swap" id="want_swap"/></td>
+             <td>I want to swap this clothes.</td>
+         </tr>
+
+         <tr>
+                    <td><label for="clothes_size">Size: </label></td>
+                    <td>
+
+                        {%  for one_type in clothes_type %}
+                            <option name="{{ one_type.name }}" value="{{ one_type.id }}" ></option>
+                        {%  endfor %}
+                        <select name="clothes_size" id="clothes_size" required>
+                        <option value="XXS">XXS</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                        <option value="XXXL">XXXL</option>
+
+                    </select>
+
+                    </td>
+          </tr>
+          <tr>
+                   <td> <label for="clothes_type">Type: </label></td>
+                   <td><input type="text" autocomplete="off" name = "clothes_type"  id="clothes_type" required>
+
+             </td>
+
+             </tr>
+
+                 <tr>
+
+                    <td><label for="clothes_brand">Brand: </label></td>
+                    <td><input type="text" name="clothes_brand"  id="clothes_brand" required></td>
+                 </tr>
+                  <tr>
+
+                    <td><label for="clothes_material">Material: </label></td>
+                    <td><select name="clothes_material" id="clothes_material" required>
+                        <option value="cashmere">Cashmere</option>
+                        <option value="cotton">Cotton</option>
+                        <option value="denim">Denim</option>
+                        <option value="silk">Silk</option>
+                        <option value="knit">Knit</option>
+                        <option value="satin">Satin</option>
+                        <option value="polyster">Polyster</option>
+                        <option value="linen">Linen</option>
+                        <option value="corduroy">Corduroy</option>
+                        <option value="othermaterial"> Other </option>
+                    </select>
+                    </td>
+
+                 </tr>
+                  <tr>
+
+                    <td><label for="clothes_color">Colour: </label></td>
+                    <td><select name="clothes_color" id="clothes_color" required>
+                        <option value="black">Black</option>
+                        <option value="beige">Beige</option>
+                        <option value="blue">Blue</option>
+                        <option value="white">White</option>
+                        <option value="pink">Pink</option>
+                        <option value="purple">Purple</option>
+                        <option value="brown">Brown</option>
+                        <option value="grey">Grey</option>
+                        <option value="green">Green</option>
+                        <option value="azure">Azure</option>
+                        <option value="yellow">Yellow</option>
+                        <option value="red">red</option>
+                        <option value="orange">orange</option>
+                        <option value="silver">silver</option>
+                        <option value="golden">golden</option>
+                        <option value="neon">neon</option>
+                        <option value="burgundy">burgundy</option>
+                        <option value="peach pink">peach pink</option>
+                        <option value="othercolor">Other</option>
+                    </select>
+                    </td>
+
+                 </tr>
+                <tr>
+
+                    <td><label for="clothes_gender">Gender: </label></td>
+                    <td><select name="clothes_gender" id="clothes_gender" required>
+                        <option value="women">Women</option>
+                        <option value="men">Men</option>
+                        <option value="girl">Girl</option>
+                        <option value="boy">Boy</option>
+
+                    </select>
+                    </td>
+
+                <tr>
+
+                    <td><label for="clothes_image">Image: </label></td>
+                    <td><input class="" type="file" name="clothes_image"  id="clothes_image" accept="image/*" multiple="multiple" required></td>
+
+                 </tr>
+                <!-- <tr>
+                     <div class="form-group">
+                    <td><label for="clothes_image">Date upload: </label></td>
+                    <td><input type="date" name="clothes_brand"  id="clothes_brand" ></td>
+                  </div>
+                 </tr>-->
+                 <tr>
+
+                    <td><label for="clothes_price">Price: </label></td>
+                    <td><input type="text" name="clothes_price"  id="clothes_price" required></td>
+
+                 </tr>
+                 <tr>
+                    <td><label for="clothes_situation">Situation: </label></td>
+                    <td><select name="clothes_situation" id="clothes_situation" required>
+                        <option value="new">New</option>
+                        <option value="midnew">Midnew</option>
+                        <option value="midold">Midold</option>
+                        <option value="old">old</option>
+                    </select></td>
+                 </tr>
+                 <tr>
+                    <td><label for="clothes_season">Season: </label></td>
+                    <td><select name="clothes_season" id="clothes_season" required>
+                        <option value="summer">summer</option>
+                        <option value="autumn">autumn</option>
+                        <option value="spring">spring</option>
+                        <option value="winter">winter</option>
+                        <option value="demiseason">demiseason</option>
+                    </select></td>
+
+                 </tr>
+    <!--Todo:Clothes_delivery ask!!!-->
+                 <tr>
+                     <td><label for="clothes_delivery">Delivery: </label></td>
+                     <td><select name="clothes_delivery" id="clothes_delivery" required>
+                         <option value="notfree_delivery">Not free delivery</option>
+                         <option value="freedelivery">Free delivery</option>
+                         <option value="nodelivery">No delivery</option>
+                     </select>
+                    <div id="divnotfree">
+                        <input type="text" name="otherdelivery" id="otherdelivery" size="8">
+                    </div>
+
+                     </td>
+                 </tr>
+
+                 <tr>
+
+                    <td><label for="clothes_description">Description: </label></td>
+                    <td><textarea name="clothes_description"  id="clothes_description" ></textarea></td>
+                 </tr>
+                 <tr>
+                     <td>
+                         <label for="owner_telephone">Telephone: </label>
+                     </td>
+                     <td><input type="tel" name="telephone" id="owner_telephone"> </td>
+                 </tr>
+    </table>
+</div>
+<script type="text/javascript">
+window.onload=function(){
+    var deliverybox=document.getElementById('clothes_delivery');
+    deliverybox.onchange=function(){
+        if(this.value=='notfree_delivery') {
+            document.getElementById('divnotfree').style.display = 'block';
+
+        }
+        else{
+            document.getElementById('divnotfree').style.display='none';
+        }
+    }
+}
+
+</script>
+</body>
+
+</html>

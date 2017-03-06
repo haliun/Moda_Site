@@ -1,0 +1,59 @@
+{%  extends 'base site/../base.html' %}
+{% block content %}
+<div id="field">
+   <div class="sort">
+       <span> Order by :</span>
+       <ul>
+           <li class="popular">
+               <a  href="">Popular</a>
+           </li>
+           <li class="priceup">
+               <a href="">Price up</a>
+           </li>
+           <li class="pricedown">
+               <a href="">Price down</a>
+           </li>
+           <li class="new">
+               <a href="">Newest</a>
+           </li>
+       </ul>
+   </div>
+    <table width="100%" border="1">
+                <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Description
+                </th>
+               </tr>
+           {%  for clothes in object_list %}
+
+               <tr>
+                   <td width="15%">
+                    <a href="{% url 'clothes_detial' clothes.id %}" ><h4>{{  clothes.clothes_name }}</h4></a>
+                   </td>
+                   <td width="15%">
+                    <img src="{{ clothes.clothes_image.url }}" width="100px" height="100px">
+                   </td>
+                   <td width="15%">
+                       {{ clothes.clothes_price }}
+                   </td>
+                   <td>
+                       {{ clothes.clothes_description }}
+                   </td>
+
+               </tr>
+
+    {%  endfor %}
+
+    </table>
+
+</div>
+{% endblock %}

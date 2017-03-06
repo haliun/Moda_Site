@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+{% extends 'base site/../base.html' %}
+{%  block content %}
+    {%  block sidebar %}
+<h1>Cosmetics</h1>
+
+<ul>
+
+    <div id="content"><div style="height: 20px;">
+         <li><a id="button_upload_cosmetic" href="javascript:DialogUploadCosmetic.show();">Upload Cosmetics</a></li>
+
+    </div></div>
+</ul>
+<div id="DialogUploadCosmetic" title="Upload Cosmetics" style="display: none; ">
+<form action="{% url 'uploadcosmetic' %} " method="post" enctype="multipart/form-data" id="formuploadcosmetic">
+
+ {% csrf_token %}
+        {{ form }}
+
+
+
+    <table>
+
+
+
+         <tr>
+             <div class="form-group">
+                  <td><label for="clothes_name">Name of clothes: </label></td>
+                  <td><input type="text" name = "clothes_name"  id="clothes_name"></td>
+             </div>
+         </tr>
+         <tr>
+             <div class="form-group">
+                    <td><label for="clothes_size">Size: </label></td>
+                    <td>
+                        <select name="clothes_size" id="clothes_size">
+                        <option value="XXS">XXS</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                        <option value="XXXL">XXXL</option>
+                    </select>
+
+                    </td>
+             </div>
+         </tr>
+          <tr>
+              <div class="form-group">
+                   <td> <label for="clothes_type">Type: </label></td>
+                   <td>
+                         <select name="slist1" onchange="SList.getSelect('slist2', this.value);">
+                             <option>- - -</option>
+                             <option value="s1_opt1">S1 Option1</option>
+                             <option value="s1_opt2">S1 Option2</option>
+                        </select>
+
+                        <span id="slist2"></span>  <div id="scontent"></div>
+
+                        <script><!--
+
+                            var SList = new Object();
+                            var txtsl2 = 'Select Option:';
+                            SList.slist2 = {
+                                "s1_opt1": ['s1o1_opt1', 's1o1_opt2'],
+                                "s1_opt2": ['s1o2_opt1', 's1o2_opt2'],
+                                            };
+
+                            SList.scontent = {
+                                "s2o1_2_opt2": 'Content for s2o1_2_opt2',
+                                "s2o2_1_opt1": 'Content for s2o2_1_opt1',
+                                "s2o2_1_opt2": 'Content for s2o2_1_opt2',
+                                "s2o2_2_opt1": 'Content for s2o2_2_opt1',
+                                "s2o2_2_opt2": 'Content for s2o2_2_opt2',
+                            };
+
+
+                            SList.getSelect = function(slist, option) {
+                                    document.getElementById('scontent').innerHTML = '';           // empty option-content
+
+                                     if(SList[slist][option]) {
+                            // if option from the last Select, add text-content, else, set dropdown list
+                             if(slist == 'scontent') document.getElementById('scontent').innerHTML = SList[slist][option];
+                             else {
+                                  var addata = '<option>- - -</option>';
+                                 for(var i=0; i<SList[slist][option].length; i++) {
+                                     addata += '<option value="'+SList[slist][option][i]+'">'+SList[slist][option][i]+'</option>';
+                                     }
+
+                                 // cases for each dropdown list
+                            switch(slist) {
+                                 case 'slist2':
+                                     document.getElementById('slist2').innerHTML = txtsl2+' <select name="slist2" onchange="SList.getSelect(\'slist3\', this.value);">'+addata+'</select>';
+                                     document.getElementById('slist3').innerHTML = '';
+                                     break;
+
+                                             }
+                                         }
+                                }
+                             else {
+                            // empty the tags for select lists
+                            if(slist == 'slist2')
+                                document.getElementById('slist2').innerHTML = '';
+                              }
+                                         }
+                        }
+                    </script>
+
+           </td>
+             </div>
+          </tr>
+
+                      <br>
+                 <tr>
+                     <div class="form-group">
+                    <td><label for="clothes_brand">Brand: </label></td>
+                    <td><input type="text" name="clothes_brand"  id="clothes_brand" ></td>
+                  </div>
+                 </tr>
+                  <tr>
+                     <div class="form-group">
+                    <td><label for="clothes_material">Material: </label></td>
+                    <td><select name="clothes_material" id="clothes_material">
+                        <option value="cashmere">Cashmere</option>
+                        <option value="cotton">Cotton</option>
+                        <option value="denim">Denim</option>
+                        <option value="silk">Silk</option>
+                        <option value="knit">Knit</option>
+                        <option value="satin">Satin</option>
+                        <option value="polyster">Polyster</option>
+                        <option value="linen">Linen</option>
+                        <option value="corduroy">Corduroy</option>
+                    </select>
+                    </td>
+                  </div>
+                 </tr>
+                  <tr>
+                     <div class="form-group">
+                    <td><label for="clothes_color">Colour: </label></td>
+                    <td><select name="clothes_color" id="clothes_color">
+                        <option value="black">Black</option>
+                        <option value="beige">Beige</option>
+                        <option value="blue">Blue</option>
+                        <option value="white">White</option>
+                        <option value="pink">Pink</option>
+                        <option value="purple">Purple</option>
+                        <option value="brown">Brown</option>
+                        <option value="grey">Grey</option>
+                        <option value="green">Green</option>
+                        <option value="azure">Azure</option>
+                        <option value="yellow">Yellow</option>
+                        <option value="red">red</option>
+                        <option value="orange">orange</option>
+                        <option value="silver">silver</option>
+                        <option value="golden">golden</option>
+                        <option value="neon">neon</option>
+                        <option value="burgundy">burgundy</option>
+                        <option value="peach pink">peach pink</option>
+                    </select>
+                    </td>
+                  </div>
+                 </tr>
+                <tr>
+                     <div class="form-group">
+                    <td><label for="clothes_gender">Gender: </label></td>
+                    <td><select name="clothes_gender" id="clothes_gender">
+                        <option value="women">Women</option>
+                        <option value="men">Men</option>
+                        <option value="girl">Girl</option>
+                        <option value="boy">Boy</option>
+
+                    </select>
+                    </td>
+                  </div>
+                 </tr>
+                 <tr>
+                     <div class="form-group">
+                    <td><label for="clothes_image">Image: </label></td>
+                    <td><input class="" type="file" name="clothes_brand"  id="clothes_brand" accept="image/*" multiple="multiple"></td>
+                  </div>
+                 </tr>
+                <!-- <tr>
+                     <div class="form-group">
+                    <td><label for="clothes_image">Date upload: </label></td>
+                    <td><input type="date" name="clothes_brand"  id="clothes_brand" ></td>
+                  </div>
+                 </tr>-->
+                 <tr>
+                     <div class="form-group">
+                    <td><label for="clothes_price">Price: </label></td>
+                    <td><input type="text" name="clothes_price"  id="clothes_price" ></td>
+                  </div>
+                 </tr>
+                 <tr>
+                     <div class="form-group">
+                    <td><label for="clothes_situation">Situation: </label></td>
+                    <td><select name="clothes_situation" id="clothes_situation">
+                        <option value="new">New</option>
+                        <option value="midnew">Midnew</option>
+                        <option value="midold">Midold</option>
+                        <option value="old">old</option>
+                    </select></td>
+                  </div>
+                 </tr>
+                 <tr>
+                     <div class="form-group">
+                    <td><label for="clothes_season">Season: </label></td>
+                    <td><select name="clothes_season" id="clothes_season">
+                        <option value="summer">summer</option>
+                        <option value="autumn">autumn</option>
+                        <option value="spring">spring</option>
+                        <option value="winter">winter</option>
+                        <option value="demiseason">demiseason</option>
+                    </select></td>
+                  </div>
+                 </tr>
+                 <tr>
+                     <div class="form-group">
+                    <td><label for="clothes_description">Description: </label></td>
+                    <td><textarea name="clothes_description"  id="clothes_description" ></textarea></td>
+                  </div>
+                 </tr>
+
+
+
+ </table>
+ </form>
+</div>
+
+{%  endblock sidebar %}
+{% endblock content %}
+

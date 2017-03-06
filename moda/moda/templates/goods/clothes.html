@@ -1,0 +1,203 @@
+{%  extends "base.html" %}
+{%  block content %}
+{%  block sidebar %}
+    <h1>Clothes</h1>
+<ul>
+    <li><a href="/clothes/all/"><h2>All Clothes</h2></a> </li>
+    <div id="content"><div style="height: 20px;">
+         <li><a id="button_upload_clothes" href="javascript:DialogUploadClothes.show();"><h2>Upload Clothes</h2></a></li>
+
+    </div></div>
+</ul>
+<div id="DialogUploadClothes" title="UploadClothes" >
+    <table>
+
+         <tr>
+                  <td><label for="clothes_name">Name of clothes: </label></td>
+                  <td><input type="text" name = "clothes_name"  id="clothes_name" required></td>
+
+         </tr>
+         <tr>
+             <td align="center"><input type="checkbox" name="want_sell" id="want_sell"/></td>
+             <td>I want to sell this clothes.</td>
+         </tr>
+         <tr>
+             <td align="center"><input type="checkbox" name="want_swap" id="want_swap"/></td>
+             <td>I want to swap this clothes.</td>
+         </tr>
+
+         <tr>
+                    <td><label for="clothes_size">Size: </label></td>
+                    <td>
+
+                        {%  for one_type in clothes_type %}
+                            <option name="{{ one_type.name }}" value="{{ one_type.id }}" ></option>
+                        {%  endfor %}
+                        <select name="clothes_size" id="clothes_size" required>
+                        <option value="XXS">XXS</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                        <option value="XXXL">XXXL</option>
+
+                    </select>
+
+                    </td>
+          </tr>
+          <tr>
+                   <td> <label for="clothes_type">Type: </label></td>
+                   <td><input type="text" autocomplete="off" name = "clothes_type"  id="clothes_type" required>
+
+             </td>
+
+             </tr>
+
+                 <tr>
+
+                    <td><label for="clothes_brand">Brand: </label></td>
+                    <td><input type="text" name="clothes_brand"  id="clothes_brand" required></td>
+                 </tr>
+                  <tr>
+
+                    <td><label for="clothes_material">Material: </label></td>
+                    <td><select name="clothes_material" id="clothes_material" required>
+                        <option value="cashmere">Cashmere</option>
+                        <option value="cotton">Cotton</option>
+                        <option value="denim">Denim</option>
+                        <option value="silk">Silk</option>
+                        <option value="knit">Knit</option>
+                        <option value="satin">Satin</option>
+                        <option value="polyster">Polyster</option>
+                        <option value="linen">Linen</option>
+                        <option value="corduroy">Corduroy</option>
+                        <option value="othermaterial"> Other </option>
+                    </select>
+                    </td>
+
+                 </tr>
+                  <tr>
+
+                    <td><label for="clothes_color">Colour: </label></td>
+                    <td><select name="clothes_color" id="clothes_color" required>
+                        <option value="black">Black</option>
+                        <option value="beige">Beige</option>
+                        <option value="blue">Blue</option>
+                        <option value="white">White</option>
+                        <option value="pink">Pink</option>
+                        <option value="purple">Purple</option>
+                        <option value="brown">Brown</option>
+                        <option value="grey">Grey</option>
+                        <option value="green">Green</option>
+                        <option value="azure">Azure</option>
+                        <option value="yellow">Yellow</option>
+                        <option value="red">red</option>
+                        <option value="orange">orange</option>
+                        <option value="silver">silver</option>
+                        <option value="golden">golden</option>
+                        <option value="neon">neon</option>
+                        <option value="burgundy">burgundy</option>
+                        <option value="peach pink">peach pink</option>
+                        <option value="othercolor">Other</option>
+                    </select>
+                    </td>
+
+                 </tr>
+                <tr>
+
+                    <td><label for="clothes_gender">Gender: </label></td>
+                    <td><select name="clothes_gender" id="clothes_gender" required>
+                        <option value="women">Women</option>
+                        <option value="men">Men</option>
+                        <option value="girl">Girl</option>
+                        <option value="boy">Boy</option>
+
+                    </select>
+                    </td>
+
+                <tr>
+
+                    <td><label for="clothes_image">Image: </label></td>
+                    <td><input class="" type="file" name="clothes_image"  id="clothes_image" accept="image/*" multiple="multiple" required></td>
+
+                 </tr>
+                <!-- <tr>
+                     <div class="form-group">
+                    <td><label for="clothes_image">Date upload: </label></td>
+                    <td><input type="date" name="clothes_brand"  id="clothes_brand" ></td>
+                  </div>
+                 </tr>-->
+                 <tr>
+
+                    <td><label for="clothes_price">Price: </label></td>
+                    <td><input type="text" name="clothes_price"  id="clothes_price" required></td>
+
+                 </tr>
+                 <tr>
+                    <td><label for="clothes_situation">Situation: </label></td>
+                    <td><select name="clothes_situation" id="clothes_situation" required>
+                        <option value="new">New</option>
+                        <option value="midnew">Midnew</option>
+                        <option value="midold">Midold</option>
+                        <option value="old">old</option>
+                    </select></td>
+                 </tr>
+                 <tr>
+                    <td><label for="clothes_season">Season: </label></td>
+                    <td><select name="clothes_season" id="clothes_season" required>
+                        <option value="summer">summer</option>
+                        <option value="autumn">autumn</option>
+                        <option value="spring">spring</option>
+                        <option value="winter">winter</option>
+                        <option value="demiseason">demiseason</option>
+                    </select></td>
+
+                 </tr>
+    <!--Todo:Clothes_delivery ask!!!-->
+                 <tr>
+                     <td><label for="clothes_delivery">Delivery: </label></td>
+                     <td><select name="clothes_delivery" id="clothes_delivery" required>
+                         <option value="notfree_delivery">Not free delivery</option>
+                         <option value="freedelivery">Free delivery</option>
+                         <option value="nodelivery">No delivery</option>
+                     </select>
+                    <div id="divnotfree">
+                        <input type="text" name="otherdelivery" id="otherdelivery" size="8">
+                    </div>
+
+                     </td>
+                 </tr>
+
+                 <tr>
+
+                    <td><label for="clothes_description">Description: </label></td>
+                    <td><textarea name="clothes_description"  id="clothes_description" ></textarea></td>
+                 </tr>
+                 <tr>
+                     <td>
+                         <label for="owner_telephone">Telephone: </label>
+                     </td>
+                     <td><input type="tel" name="telephone" id="owner_telephone"> </td>
+                 </tr>
+    </table>
+</div>
+<script type="text/javascript">
+window.onload=function(){
+    var deliverybox=document.getElementById('clothes_delivery');
+    deliverybox.onchange=function(){
+        if(this.value=='notfree_delivery') {
+            document.getElementById('divnotfree').style.display = 'block';
+
+        }
+        else{
+            document.getElementById('divnotfree').style.display='none';
+        }
+    }
+}
+
+</script>
+{%  endblock sidebar %}
+{% endblock content %}
+

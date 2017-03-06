@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="field">
+<h2>{{ object.username }}'s Profile </h2>
+<h3>
+<table align="center" border="1">
+<tr>
+{% if object.userprofile.first_name %}
+
+<td>First name:</td><td> {{ object.userprofile.first_name }}</td>
+{% endif %}
+</tr>
+<tr>
+{% if object.userprofile.last_name %}
+<td>Last Name: </td><td>{{ object.userprofile.last_name }}</td>
+{% endif %}
+</tr>
+<tr>
+{% if object.userprofile.email %}
+<td>
+Email: </td><td>{{ object.userprofile.email }}</td>
+{% endif %}
+</tr>
+<table></h3>
+{% if object.username == user.username %}
+<p><a href='{% url "edit_profile" %}'><h2>Edit my profile</h2></a></p>
+{% endif %}
+</div>
+{% endblock %}

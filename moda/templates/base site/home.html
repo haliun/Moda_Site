@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% extends 'base site/../base.html' %}
+{%  block content %}
+<!--<a href="/goods/newarrivals/" ><img align="center" title="New Arrivals" border="5" src="/static/images/fashion3.jpg">
+-->
+    <!--<div class="unslider"><div class="fading-slider unslider-fade" style="overflow: hidden;">
+        <ul class="unslider-wrap">
+            <li class="" style="opacity: 0;"><a href="/goods/newarrivals/" ><img src="/static/images/fashion3.jpg"></li>
+            <li class="unslider-active" style="opacity: 1;"><a href="/goods/newarrivals/" ><img src="/static/images/fashion3.jpg"></li>
+            <li class="" style="opacity: 0;"><img src="/static/images/fashion3.jpg"></li>
+            <li class="" style="opacity: 0;"><a href="/goods/newarrivals/" ><img src="/static/images/fashion3.jpg"></li>
+            <li class="" style="opacity: 0;"><a href="/goods/newarrivals/" ><img src="/static/images/fashion3.jpg"></li>
+            <li class="" style="opacity: 0;"><a href="/goods/newarrivals/" ><img src="/static/images/fashion3.jpg"></li>
+        </ul>
+    </div><nav class="unslider-nav">
+        <ol><li data-slide="0" class="">1</li>
+            <li data-slide="1" class="unslider-active">2</li>
+            <li data-slide="2" class="">3</li>
+            <li data-slide="3" class="">4</li>
+            <li data-slide="4" class="">5</li>
+            <li data-slide="5" class="">6</li>
+        </ol></nav>
+    <script>$('.fading-slider').unslider({
+									animation: 'fade',
+									autoplay: true,
+									arrows: false
+								});
+    </script>-->
+<section id="content">
+    <div class="bucket">
+        <a href="/goods/clothes" id="sell"></a>
+        <p><a href="/goods/clothes"><h1>Upload and sell your clothes</h1></a> </p>
+
+    </div>
+     <div class="bucket">
+        <a href="/functions/search/" id="buy"></a>
+         <p><a href="/functions/search/"><h1>Search and buy</h1></a></p>
+    </div>
+     <div class="bucket">
+        <a href="/functions/exchange/" id="swap"></a>
+         <p><a href="/functions/exchange/"><h1>Exchange your Style</h1></a></p>
+    </div>
+     <div class="bucket">
+        <a href="/functions/present/" id="give"></a>
+         <p><a href="/functions/present/"><h1>Give unusual your stuffs to poors</h1></a></p>
+    </div>
+     <div class="bucket">
+        <a href="/functions/events/" id="event"></a>
+         <p><a href="/functions/events/"><h1>Events for exchange clothes</h1></a></p>
+    </div>
+    <div class="bucket">
+        <a href="/functions/forshops/" id="shop"></a>
+        <p><a href="/functions/forshops/"><h1>For owners shop, You can sell your clothes!</h1></a></p>
+    </div>
+</section>
+
+{% endblock %}
